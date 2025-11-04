@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Purikura Photo Booth</title>
+  <link rel="stylesheet" href="/static/css/styles.css" />
+  <!-- QRCode library (client-side) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+  <script defer src="/static/js/main.js"></script>
+</head>
+<body>
+  <header>
+    <h1>🎀 Purikura Photo Booth</h1>
+    <p class="subtitle">Kawaii 3-shot layout with background swap + QR</p>
+  </header>
+
+  <main>
+    <!-- Stepper -->
+    <div id="steps">
+      <div class="step active" data-step="1">1. Choose Filter</div>
+      <div class="step" data-step="2">2. Take 3 Photos</div>
+      <div class="step" data-step="3">3. Choose Background</div>
+      <div class="step" data-step="4">4. Generate & Share</div>
+    </div>
+
+    <!-- Step 1: Filter selection -->
+    <section id="step1" class="card">
+      <h2>Pick a Filter</h2>
+      <div class="filters">
+        <label><input type="radio" name="filter" value="none" checked> None</label>
+        <label><input type="radio" name="filter" value="grayscale"> B&W</label>
+        <label><input type="radio" name="filter" value="sepia"> Sepia</label>
+        <label><input type="radio" name="filter" value="softpink"> Soft Pink</label>
+      </div>
+      <button id="goStep2" class="primary">Next →</button>
+    </section>
+
+    <!-- Step 2: Camera + capture -->
+    <section id="step2" class="card hidden">
+      <h2>Take 3 Photos</h2>
+      <div class="video-wrap">
+        <video id="video" autoplay playsinline></video>
+        <canvas id="overlay" class="overlay"></canvas>
+      </div>
+      <div class="controls">
+        <button id="switchCam" class="secondary">Switch Camera</button>
+        <button id="capture" class="primary">Capture with 3s Countdown</button>
+        <button id="retake" class="secondary" disabled>🔄 Retake Photo</button>
+
+        <span id="counter">0/3</span>
+      </div>
+      <div id="thumbs" class="thumbs"></div>
+      <button id="goStep3" class="primary" disabled>Next →</button>
+      <button id="backBtn" class="secondary">⬅ Back</button>
+
+    </section>
+
+    <!-- Step 3: Background select/upload + background removal -->
+    <section id="step3" class="card hidden">
+      <h2>Choose a Background</h2>
+      <div class="bg-options">
+          <div class="bg-list" id="bgList">
+              <img src="/static/backgrounds/white.png" alt="bg" class="bg-item" data-src="/static/backgrounds/white.png" />
+              <img src="/static/backgrounds/black.png" alt="bg" class="bg-item" data-src="/static/backgrounds/black.png" />
+              <img src="/static/backgrounds/kawaii.png" alt="bg" class="bg-item" data-src="/static/backgrounds/kawaii.png" />
+              <img src="/static/backgrounds/strawberry.jpg" alt="bg" class="bg-item" data-src="/static/backgrounds/strawberry.jpg" />
+              <img src="/static/backgrounds/flower.jpg" alt="bg" class="bg-item" data-src="/static/backgrounds/flower.jpg" />
+              <img src="/static/backgrounds/cat.jpg" alt="bg" class="bg-item" data-src="/static/backgrounds/cat.jpg" />
+          </div>
+        <div class="bg-upload">
+          <label class="filelabel">Upload your own
+            <input type="file" id="bgUpload" accept="image/*" />
+          </label>
+        </div>
+      </div>
+
+      <button id="goStep4" class="primary" disabled>Apply & Continue →</button>
+      <button id="backStep2" class="secondary">⬅ Back</button>
+    </section>
+
+    <!-- Step 4: Final layout + QR -->
+    <section id="step4" class="card hidden">
+        <h2>Your Purikura Sheet</h2>
+        <canvas id="finalCanvas" width="1080" height="1920"></canvas>
+        <div class="share">
+            <button id="downloadBtn" class="secondary">Download</button>
+            <button id="uploadBtn" class="primary">Get QR Link</button>
+            <button id="backStep3" class="secondary">⬅ Back</button>
+        </div>
+        <div id="qrcode" class="qrcode"></div>
+        <p id="shareLink" class="link"></p>
+    </section>
+  </main>
+
+  <footer>
+    <small>Tip: For mobile camera access, open over HTTPS or via localhost.</small>
+  </footer>
+</body>
+</html>
